@@ -11,19 +11,19 @@ import (
 	tgbotapiK "gopkg.in/telegram-bot-api.v4"
 )
 
-type ObjectFunction struct {
+type ToolFunction struct {
 	Cfg    *Config
 	Logger *FaasLogger
 }
 
-func New(cfg *Config) *ObjectFunction {
-	return &ObjectFunction{
+func New(cfg *Config) *ToolFunction {
+	return &ToolFunction{
 		Cfg:    cfg,
 		Logger: NewLoggerFunction(cfg.FunctionName),
 	}
 }
 
-func (o *ObjectFunction) SendTelegram(text string) error {
+func (o *ToolFunction) SendTelegram(text string) error {
 	client := &http.Client{}
 
 	if ContainsLike(Mode, text) {
@@ -53,7 +53,7 @@ func (o *ObjectFunction) SendTelegram(text string) error {
 	return nil
 }
 
-func (o *ObjectFunction) SendTelegramFile(req []byte, filename string) error {
+func (o *ToolFunction) SendTelegramFile(req []byte, filename string) error {
 	err := os.WriteFile(filename, req, 0644)
 	if err != nil {
 		return err
@@ -76,6 +76,6 @@ func (o *ObjectFunction) SendTelegramFile(req []byte, filename string) error {
 	return nil
 }
 
-func (o *ObjectFunction) Config() *Config {
+func (o *ToolFunction) Config() *Config {
 	return o.Cfg
 }
